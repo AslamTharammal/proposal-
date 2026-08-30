@@ -215,7 +215,7 @@ document.addEventListener('visibilitychange', () => {
             romanticStarted = false; 
             romanticAudio.pause();
             romanticAudio.currentTime = 0;
-          //  romanticAudio.load();
+            romanticAudio.load();
             
             // 2. Direct background color fade from pink to black 
             document.getElementById('body-bg').style.backgroundColor = '#000000';
