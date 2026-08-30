@@ -21,13 +21,16 @@
     </script>
 
     <style>
+        /* Base page styling and smooth color transition */
         body { background-color: #fbcfe8; transition: background-color 0.8s ease-in-out; }
-        
+
+        /* Page switching rules */
         .proposal-page {
             display: none; opacity: 0; transform: scale(0.95);
             transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
             will-change: opacity, transform;
         }
+        
         .proposal-page.active { display: flex; opacity: 1; transform: scale(1); }
 
         .floating-bg-item {
@@ -36,11 +39,13 @@
             will-change: transform, opacity; -webkit-tap-highlight-color: transparent;
         }
 
+        /* Continuous Floating Background Elements */
         @keyframes floatDown {
             0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0.8; }
             100% { transform: translate3d(0, 115vh, 0) rotate(360deg); opacity: 0; }
         }
 
+        /* Animations */
         .kissing-animation { animation: gentleBounce 2.5s ease-in-out infinite; will-change: transform; }
         @keyframes gentleBounce { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(0, -5px, 0) scale(1.02); } }
 
@@ -50,6 +55,7 @@
         .dog-laugh-anim { animation: crazyLaugh 0.3s infinite alternate ease-in-out; will-change: transform; }
         @keyframes crazyLaugh { 0% { transform: rotate(-8deg) scale(1.05); } 100% { transform: rotate(8deg) scale(1.15); } }
 
+        /* Runaway "No" Button Dynamic Positioning */
         #noBtn {
             transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), left 0.25s cubic-bezier(0.25, 1, 0.5, 1), top 0.25s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: transform, left, top; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
@@ -58,6 +64,7 @@
 </head>
 <body id="body-bg" class="h-screen w-screen text-slate-800 font-sans relative overflow-hidden flex flex-col justify-between items-center p-3 sm:p-6">
 
+    <!-- AUDIO PLAYERS -->
     <audio id="romanticAudio" loop preload="auto"><source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3" type="audio/mpeg"></audio>
     <audio id="prankAudio" loop preload="auto"><source src="prank.mp3" type="audio/mpeg"></audio>
 
@@ -120,6 +127,8 @@
     <footer id="footer-text" class="relative z-10 text-center py-2 text-xs font-bold text-deepPink/80 shrink-0">Made with endless love ❤️</footer>
 
     <script>
+
+        // 1. AUDIO MANAGEMENT
         const romanticAudio = document.getElementById('romanticAudio'), prankAudio = document.getElementById('prankAudio');
         let romanticStarted = false;
 
@@ -140,6 +149,7 @@
             }
         });
 
+        // 2. FLOATING EMOJIS
         const container = document.getElementById('floating-hearts-container');
         let romanticIcons = ['💖', '🌸', '✨', '💕', '🌷', '💗', '🌹', '💌'];
 
@@ -161,6 +171,7 @@
         }
         buildFloatingIcons();
 
+        // 3. RUNAWAY "NO" BUTTON
         const noBtn = document.getElementById('noBtn'), yesBtn = document.getElementById('yesBtn');
         let moveCount = 0;
         const phrases = ["Are you sure? 🥺", "Think again! 💖", "Nice try! 😜", "You can't catch me! 🏃‍♀️", "Just click YES! 🥰", "Oops! Almost caught me! 🌸"];
@@ -186,20 +197,28 @@
         noBtn.addEventListener('mouseenter', smoothMoveNoButton);
         noBtn.addEventListener('touchstart', smoothMoveNoButton, { passive: false });
 
+        // 4. TRANSITION TO FUNNY PAGE
         function triggerFunnyPage() {
             const proposalPage = document.getElementById('page-proposal'), funnyPage = document.getElementById('page-funny');
-            
+
+            // 1. Stop romantic music instantly
             romanticStarted = false; 
             romanticAudio.pause();
             romanticAudio.currentTime = 0;
             romanticAudio.load();
 
+            // 2. Direct background color fade from pink to black 
             document.getElementById('body-bg').style.backgroundColor = '#000000';
+         
+            // 3. Fade out proposal page text
             proposalPage.style.opacity = '0';
             proposalPage.style.transform = 'scale(0.95)';
 
+            // 4. Swap to prank page
             setTimeout(() => {
                 proposalPage.classList.remove('active');
+           
+               // Change floating background emojis 
                 romanticIcons = ['🐶', '🤣', '🐕', '😜', '🐕‍🦺', '🐾', '🦴'];
                 buildFloatingIcons();
 
@@ -209,12 +228,14 @@
                     funnyPage.style.transform = 'scale(1)';
                 });
 
+                // Play prank audio
                 prankAudio.volume = 1.0;
                 prankAudio.currentTime = 0;
                 prankAudio.play().catch(() => {});
 
                 document.getElementById('footer-text').className = "relative z-10 text-center py-2 text-xs font-bold text-yellow-400 shrink-0";
 
+                // Launch confetti
                 const end = Date.now() + 3000;
                 (function frame() {
                     confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FFD700', '#FFFFFF', '#FF0000'] });
