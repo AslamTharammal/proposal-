@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Will You Marry Me? ❤️</title>
+    <title> You Are My Love ❤️</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
@@ -65,8 +65,11 @@
 <body id="body-bg" class="h-screen w-screen text-slate-800 font-sans relative overflow-hidden flex flex-col justify-between items-center p-3 sm:p-6">
 
     <!-- AUDIO PLAYERS -->
-    <audio id="romanticAudio" loop preload="auto"><source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3" type="audio/mpeg"></audio>
-    <audio id="prankAudio" loop preload="auto"><source src="prank.mp3" type="audio/mpeg"></audio>
+    <audio id="romanticAudio" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3" type="audio/mpeg"></audio>
+  
+    <audio id="prankAudio" loop preload="auto">
+        <source src="prank.mp3" type="audio/mpeg"></audio>
 
     <div id="floating-hearts-container"></div>
 
@@ -212,10 +215,10 @@ document.addEventListener('visibilitychange', () => {
             const proposalPage = document.getElementById('page-proposal'), funnyPage = document.getElementById('page-funny');
 
             // 1. Stop romantic music instantly
-            romanticStarted = false; 
+          //  romanticStarted = false; 
             romanticAudio.pause();
             romanticAudio.currentTime = 0;
-            romanticAudio.load();
+          //  romanticAudio.load();
             
             // 2. Direct background color fade from pink to black 
             document.getElementById('body-bg').style.backgroundColor = '#000000';
@@ -241,7 +244,7 @@ document.addEventListener('visibilitychange', () => {
                 // Play prank audio
                 prankAudio.volume = 1.0;
                 prankAudio.currentTime = 0;
-                prankAudio.play().catch(() => {});
+                prankAudio.play().catch((err) => console.log("Prank audio error:", err));
 
                 document.getElementById('footer-text').className = "relative z-10 text-center py-2 text-xs font-bold text-yellow-400 shrink-0";
 
