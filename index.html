@@ -133,21 +133,31 @@
         let romanticStarted = false;
 
         const startRomanticMusic = () => {
-            if (!romanticStarted) {
-                romanticAudio.play().then(() => romanticStarted = true).catch(() => {});
-            }
-        };
-
-        ['touchstart', 'click', 'mousemove'].forEach(evt => document.addEventListener(evt, startRomanticMusic, { once: true }));
-
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) { 
-                romanticAudio.pause(); 
-                prankAudio.pause(); 
-            } else {
-                document.getElementById('page-funny').classList.contains('active') ? prankAudio.play().catch(() => {}) : (romanticStarted && romanticAudio.play().catch(() => {}));
-            }
+        // Only play if the prank page is NOT active and music hasn't started yet
+        if (!romanticStarted && !document.getElementById('page-funny').classList.contains('active')) {
+            romanticAudio.play().then(() => {
+            romanticStarted = true;
+            }).catch((error) => {
+            // Audio was blocked by browser policy; will try again on next interaction
         });
+    }
+};
+
+       // Listen for interaction events (including No button hover and touch)
+       ['touchstart', 'touchend', 'click', 'mousemove', 'mouseenter'].forEach(evt => {
+       document.addEventListener(evt, startRomanticMusic);
+       });
+
+      document.addEventListener('visibilitychange', () => {
+         if (document.hidden) { 
+            romanticAudio.pause(); 
+            prankAudio.pause(); 
+              } else {
+                    document.getElementById('page-funny').classList.contains('active') 
+                    ? prankAudio.play().catch(() => {}) 
+                    : (romanticStarted && romanticAudio.play().catch(() => {}));
+    } 
+});
 
         // 2. FLOATING EMOJIS
         const container = document.getElementById('floating-hearts-container');
@@ -202,11 +212,11 @@
             const proposalPage = document.getElementById('page-proposal'), funnyPage = document.getElementById('page-funny');
 
             // 1. Stop romantic music instantly
-         //   romanticStarted = false; 
+            romanticStarted = false; 
             romanticAudio.pause();
             romanticAudio.currentTime = 0;
           //  romanticAudio.load();
-
+            
             // 2. Direct background color fade from pink to black 
             document.getElementById('body-bg').style.backgroundColor = '#000000';
          
