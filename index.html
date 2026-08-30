@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,54 +14,27 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        rosePink: '#FF69B4',
-                        hotPink: '#FF1493',
-                        deepPink: '#C71585',
-                        blushPink: '#FFF0F5',
-                        goldAccent: '#FFD700',
-                    },
-                    fontFamily: {
-                        cursive: ['"Great Vibes"', 'cursive'],
-                        handwriting: ['"Dancing Script"', 'cursive'],
-                        sans: ['Poppins', 'sans-serif'],
-                    }
+                    colors: { rosePink: '#FF69B4', hotPink: '#FF1493', deepPink: '#C71585', blushPink: '#FFF0F5', goldAccent: '#FFD700' },
+                    fontFamily: { cursive: ['"Great Vibes"', 'cursive'], handwriting: ['"Dancing Script"', 'cursive'], sans: ['Poppins', 'sans-serif'] }
                 }
             }
         }
     </script>
 
     <style>
-        /* Base page styling and smooth color transition */
-        body {
-            background-color: #fbcfe8; /* Initial Pink Background */
-            transition: background-color 0.8s ease-in-out; /* Direct Smooth Transition without White Flash */
-        }
-
-        /* Page switching rules */
+        body { background-color: #fbcfe8; transition: background-color 0.8s ease-in-out; }
+        
         .proposal-page {
-            display: none;
-            opacity: 0;
-            transform: scale(0.95);
+            display: none; opacity: 0; transform: scale(0.95);
             transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            will-change: opacity, transform;
         }
-        .proposal-page.active {
-            display: flex;
-            opacity: 1;
-            transform: scale(1);
-        }
+        .proposal-page.active { display: flex; opacity: 1; transform: scale(1); }
 
-        /* Continuous Floating Background Elements */
         .floating-bg-item {
-            position: fixed;
-            top: -10vh;
-            font-size: 1.5rem;
-            opacity: 0.6;
-            animation: floatDown linear infinite;
-            pointer-events: none;
-            z-index: 1;
-            will-change: transform, opacity;
-            -webkit-tap-highlight-color: transparent;
+            position: fixed; top: -10vh; font-size: 1.5rem; opacity: 0.6;
+            animation: floatDown linear infinite; pointer-events: none; z-index: 1;
+            will-change: transform, opacity; -webkit-tap-highlight-color: transparent;
         }
 
         @keyframes floatDown {
@@ -68,266 +42,165 @@
             100% { transform: translate3d(0, 115vh, 0) rotate(360deg); opacity: 0; }
         }
 
-        /* Animations */
-        .kissing-animation {
-            animation: gentleBounce 2.5s ease-in-out infinite;
-            will-change: transform;
-        }
+        .kissing-animation { animation: gentleBounce 2.5s ease-in-out infinite; will-change: transform; }
+        @keyframes gentleBounce { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(0, -5px, 0) scale(1.02); } }
 
-        @keyframes gentleBounce {
-            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-            50% { transform: translate3d(0, -10px, 0) scale(1.03); }
-        }
+        .heart-beat { animation: pulseBeat 1.2s infinite ease-in-out; will-change: transform; }
+        @keyframes pulseBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
-        .heart-beat {
-            animation: pulseBeat 1.2s infinite ease-in-out;
-            will-change: transform;
-        }
+        .dog-laugh-anim { animation: crazyLaugh 0.3s infinite alternate ease-in-out; will-change: transform; }
+        @keyframes crazyLaugh { 0% { transform: rotate(-8deg) scale(1.05); } 100% { transform: rotate(8deg) scale(1.15); } }
 
-        @keyframes pulseBeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        .dog-laugh-anim {
-            animation: crazyLaugh 0.3s infinite alternate ease-in-out;
-            will-change: transform;
-        }
-
-        @keyframes crazyLaugh {
-            0% { transform: rotate(-8deg) scale(1.05); }
-            100% { transform: rotate(8deg) scale(1.15); }
-        }
-
-        /* Runaway "No" Button Dynamic Positioning */
         #noBtn {
-            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: transform, left, top;
-            touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), left 0.25s cubic-bezier(0.25, 1, 0.5, 1), top 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform, left, top; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
-<body id="body-bg" class="min-h-screen text-slate-800 font-sans relative overflow-x-hidden flex flex-col justify-between">
+<body id="body-bg" class="h-screen w-screen text-slate-800 font-sans relative overflow-hidden flex flex-col justify-between p-3 sm:p-6">
 
-    <!-- AUDIO PLAYERS -->
-    <audio id="romanticAudio" loop preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3" type="audio/mpeg">
-    </audio>
-
-    <audio id="prankAudio" loop preload="auto">
-        <source src="prank.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="romanticAudio" loop preload="auto"><source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3" type="audio/mpeg"></audio>
+    <audio id="prankAudio" loop preload="auto"><source src="prank.mp3" type="audio/mpeg"></audio>
 
     <div id="floating-hearts-container"></div>
 
     <!-- PROPOSAL PAGE -->
-    <section id="page-proposal" class="proposal-page active min-h-screen w-full flex-col items-center justify-center p-4 relative z-10 py-12">
-        <div class="max-w-3xl w-full text-center px-4">
+    <section id="page-proposal" class="proposal-page active h-full w-full flex-col items-center justify-between relative z-10 py-2">
+        <div class="max-w-2xl w-full text-center flex flex-col justify-around h-full px-2">
             
-            <div class="flex justify-center mb-4">
+            <div class="flex justify-center my-1">
                 <div class="relative kissing-animation">
-                    <video autoplay loop muted playsinline class="w-52 h-52 sm:w-60 sm:h-60 object-cover rounded-3xl">
-                        <source src="love gif.mp4" type="video/mp4">
-                    </video>
-                    <span class="absolute -top-2 -right-2 text-4xl heart-beat">💖</span>
+                    <video autoplay loop muted playsinline class="w-32 h-32 sm:w-48 sm:h-48 object-cover rounded-3xl shadow-md"><source src="love gif.mp4" type="video/mp4"></video>
+                    <span class="absolute -top-2 -right-2 text-3xl sm:text-4xl heart-beat">💖</span>
                 </div>
             </div>
 
-            <h1 class="text-5xl sm:text-7xl font-cursive text-deepPink mb-3 drop-shadow-sm">
-                Hey My Love,
-            </h1>
-            
-            <p class="text-hotPink font-handwriting text-2xl sm:text-3xl mb-6">
-                You are my happiest thought every single day ✨
-            </p>
-
-            <div class="max-w-xl mx-auto mb-8 bg-white/40 backdrop-blur-md rounded-3xl p-6 shadow-sm border border-white/60">
-                <p class="text-slate-700 text-base sm:text-lg italic leading-relaxed">
-                    "Every moment spent with you feels like magic. Your laugh brightens my darkest moments, and holding your hand makes me feel right at home."
-                </p>
+            <div class="space-y-1">
+                <h1 class="text-4xl sm:text-6xl font-cursive text-deepPink drop-shadow-sm leading-tight">Hey My Love,</h1>
+                <p class="text-hotPink font-handwriting text-xl sm:text-2xl">You are my happiest thought every single day ✨</p>
             </div>
 
-            <h2 class="text-3xl sm:text-5xl font-extrabold text-deepPink mb-10 tracking-tight leading-tight">
-                You Are My Heart & Be My Forever Wife? 💍✨
-            </h2>
+            <div class="max-w-md mx-auto bg-white/40 backdrop-blur-md rounded-2xl p-4 shadow-sm border border-white/60 my-1">
+                <p class="text-slate-700 text-xs sm:text-base italic leading-relaxed">"Every moment spent with you feels like magic. Your laugh brightens my darkest moments, and holding your hand makes me feel right at home."</p>
+            </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 relative min-h-[80px] max-w-md mx-auto">
-                <button id="yesBtn" onclick="triggerFunnyPage()" class="w-full sm:w-auto bg-gradient-to-r from-hotPink via-rosePink to-deepPink hover:scale-110 active:scale-95 text-white font-extrabold text-xl px-10 py-4 rounded-full shadow-2xl shadow-hotPink/50 transition duration-300 flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-heart text-goldAccent text-2xl heart-beat"></i> YES, I WILL! 💕
-                </button>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-deepPink tracking-tight leading-tight my-1">You Are My Heart & Be My Forever Wife? 💍✨</h2>
 
-                <button id="noBtn" class="w-full sm:w-auto bg-white/90 text-rose-500 font-bold text-lg px-8 py-4 rounded-full shadow-md border-2 border-rose-300">
-                    No 🙈
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 relative min-h-[60px] max-w-sm mx-auto w-full my-1">
+                <button id="yesBtn" onclick="triggerFunnyPage()" class="w-full sm:w-auto bg-gradient-to-r from-hotPink via-rosePink to-deepPink hover:scale-105 active:scale-95 text-white font-extrabold text-lg px-8 py-3 rounded-full shadow-xl shadow-hotPink/40 transition duration-300 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-heart text-goldAccent text-xl heart-beat"></i> YES, I WILL! 💕
                 </button>
+                <button id="noBtn" class="w-full sm:w-auto bg-white/90 text-rose-500 font-bold text-base px-6 py-3 rounded-full shadow-md border-2 border-rose-300">No 🙈</button>
             </div>
 
         </div>
     </section>
 
-    <!-- FUNNY PRANK PAGE -->
-    <section id="page-funny" class="proposal-page min-h-screen w-full flex-col items-center justify-center p-4 relative z-10 py-12">
-        <div class="max-w-3xl w-full text-center px-4">
+    <!-- FUNNY PRANK PAGE (ADJUSTED FOR SINGLE SCREEN) -->
+    <section id="page-funny" class="proposal-page h-full w-full flex-col items-center justify-between relative z-10 py-2">
+        <div class="max-w-xl w-full text-center flex flex-col justify-around h-full px-2">
             
-            <div class="flex justify-center mb-6">
+            <div class="flex justify-center my-1">
                 <div class="dog-laugh-anim">
-                    <video autoplay loop muted playsinline class="w-52 h-52 sm:w-60 sm:h-60 object-cover rounded-3xl">
-                        <source src="dog gif.mp4" type="video/mp4">
-                    </video>
+                    <video autoplay loop muted playsinline class="w-28 h-28 sm:w-44 sm:h-44 object-cover rounded-3xl shadow-lg"><source src="dog gif.mp4" type="video/mp4"></video>
                 </div>
             </div>
 
-            <h1 class="text-5xl sm:text-7xl font-extrabold text-yellow-400 mb-4 tracking-wider uppercase animate-bounce">
-                NOT INTERESTED! 😜🐶
-            </h1>
+            <div class="space-y-1">
+                <h1 class="text-3xl sm:text-5xl font-extrabold text-yellow-400 tracking-wider uppercase animate-bounce leading-tight">NOT INTERESTED! 😜🐶</h1>
+                <p class="text-white text-base sm:text-2xl font-bold">HA HA HA! Just kidding! 🤣🐶</p>
+            </div>
 
-            <p class="text-white text-xl sm:text-3xl font-bold mb-8">
-                HA HA HA! Just kidding! 🤣🐶
-            </p>
-
-            <div class="flex justify-center items-center gap-4 text-5xl sm:text-6xl my-6">
-                <span class="animate-spin">🐶</span>
-                <span class="dog-laugh-anim">🤪</span>
-                <span class="animate-bounce">🐕</span>
-                <span class="dog-laugh-anim">🤣</span>
-                <span class="animate-spin">🐕‍🦺</span>
+            <div class="flex justify-center items-center gap-2 sm:gap-4 text-3xl sm:text-5xl my-1">
+                <span class="animate-spin">🐶</span><span class="dog-laugh-anim">🤪</span><span class="animate-bounce">🐕</span><span class="dog-laugh-anim">🤣</span><span class="animate-spin">🐕‍🦺</span>
             </div>
 
         </div>
     </section>
 
-    <footer id="footer-text" class="relative z-10 text-center py-4 text-xs font-bold text-deepPink/80">
-        Made with endless love ❤️
-    </footer>
+    <footer id="footer-text" class="relative z-10 text-center py-2 text-xs font-bold text-deepPink/80 shrink-0">Made with endless love ❤️</footer>
 
     <script>
-        // 1. AUDIO MANAGEMENT
-        const romanticAudio = document.getElementById('romanticAudio');
-        const prankAudio = document.getElementById('prankAudio');
+        const romanticAudio = document.getElementById('romanticAudio'), prankAudio = document.getElementById('prankAudio');
         let romanticStarted = false;
 
-        function startRomanticMusic() {
+        const startRomanticMusic = () => {
             if (!romanticStarted) {
-                romanticAudio.play().then(() => {
-                    romanticStarted = true;
-                }).catch((err) => {
-                    console.log("Audio play blocked by browser:", err);
-                });
+                romanticAudio.play().then(() => romanticStarted = true).catch(() => {});
             }
-        }
+        };
 
-        document.addEventListener('touchstart', startRomanticMusic, { once: true });
-        document.addEventListener('click', startRomanticMusic, { once: true });
-        document.addEventListener('mousemove', startRomanticMusic, { once: true });
+        ['touchstart', 'click', 'mousemove'].forEach(evt => document.addEventListener(evt, startRomanticMusic, { once: true }));
 
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                romanticAudio.pause();
-                prankAudio.pause();
+            if (document.hidden) { 
+                romanticAudio.pause(); 
+                prankAudio.pause(); 
             } else {
-                const isFunnyActive = document.getElementById('page-funny').classList.contains('active');
-                if (isFunnyActive) {
-                    prankAudio.play().catch(() => {});
-                } else if (romanticStarted) {
-                    romanticAudio.play().catch(() => {});
-                }
+                document.getElementById('page-funny').classList.contains('active') ? prankAudio.play().catch(() => {}) : (romanticStarted && romanticAudio.play().catch(() => {}));
             }
         });
 
-        // 2. FLOATING EMOJIS
         const container = document.getElementById('floating-hearts-container');
         let romanticIcons = ['💖', '🌸', '✨', '💕', '🌷', '💗', '🌹', '💌'];
 
         function buildFloatingIcons() {
+            const fragment = document.createDocumentFragment();
             container.innerHTML = '';
-            const count = window.innerWidth < 640 ? 12 : 24; 
+            const count = window.innerWidth < 640 ? 10 : 18; 
             for (let i = 0; i < count; i++) {
                 const item = document.createElement('div');
                 item.className = 'floating-bg-item';
                 item.innerText = romanticIcons[Math.floor(Math.random() * romanticIcons.length)];
-                item.style.left = Math.random() * 95 + 'vw';
+                item.style.left = (Math.random() * 95) + 'vw';
                 item.style.animationDuration = (Math.random() * 4 + 6) + 's';
-                item.style.animationDelay = Math.random() * 4 + 's';
+                item.style.animationDelay = (Math.random() * 4) + 's';
                 item.style.fontSize = (Math.random() * 0.8 + 1) + 'rem';
-                container.appendChild(item);
+                fragment.appendChild(item);
             }
+            container.appendChild(fragment);
         }
         buildFloatingIcons();
 
-        // 3. RUNAWAY "NO" BUTTON
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn'), yesBtn = document.getElementById('yesBtn');
         let moveCount = 0;
+        const phrases = ["Are you sure? 🥺", "Think again! 💖", "Nice try! 😜", "You can't catch me! 🏃‍♀️", "Just click YES! 🥰", "Oops! Almost caught me! 🌸"];
 
         function smoothMoveNoButton(e) {
-            if (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
+            if (e) { e.preventDefault(); e.stopPropagation(); }
             startRomanticMusic();
             moveCount++;
 
             noBtn.style.position = 'fixed';
             noBtn.style.zIndex = '9999';
 
-            const padding = 20;
-            const btnWidth = noBtn.offsetWidth || 120;
-            const btnHeight = noBtn.offsetHeight || 50;
+            const padding = 20, btnW = noBtn.offsetWidth || 120, btnH = noBtn.offsetHeight || 50;
+            const maxX = window.innerWidth - btnW - padding, maxY = window.innerHeight - btnH - padding;
 
-            const maxX = window.innerWidth - btnWidth - padding;
-            const maxY = window.innerHeight - btnHeight - padding;
-
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
-
-            const randomScale = (Math.random() * 0.5 + 0.6).toFixed(2);
-            noBtn.style.transform = `scale(${randomScale})`;
-
-            const yesScale = 1 + moveCount * 0.08;
-            yesBtn.style.transform = `scale(${yesScale})`;
-
-            const phrases = [
-                "Are you sure? 🥺",
-                "Think again! 💖",
-                "Nice try! 😜",
-                "You can't catch me! 🏃‍♀️",
-                "Just click YES! 🥰",
-                "Oops! Almost caught me! 🌸"
-            ];
+            noBtn.style.left = `${Math.max(padding, Math.floor(Math.random() * maxX))}px`;
+            noBtn.style.top = `${Math.max(padding, Math.floor(Math.random() * maxY))}px`;
+            noBtn.style.transform = `scale(${(Math.random() * 0.4 + 0.6).toFixed(2)})`;
+            yesBtn.style.transform = `scale(${1 + moveCount * 0.05})`;
             noBtn.innerText = phrases[moveCount % phrases.length];
         }
 
         noBtn.addEventListener('mouseenter', smoothMoveNoButton);
         noBtn.addEventListener('touchstart', smoothMoveNoButton, { passive: false });
 
-        // 4. TRANSITION TO FUNNY PAGE
         function triggerFunnyPage() {
-            const proposalPage = document.getElementById('page-proposal');
-            const funnyPage = document.getElementById('page-funny');
-            const body = document.getElementById('body-bg');
-
-            // 1. Stop romantic music instantly
+            const proposalPage = document.getElementById('page-proposal'), funnyPage = document.getElementById('page-funny');
+            
+            romanticStarted = false; 
             romanticAudio.pause();
             romanticAudio.currentTime = 0;
+            romanticAudio.load();
 
-            // 2. Direct background color fade from pink to black (No white background gap)
-            body.style.backgroundColor = '#000000';
-
-            // 3. Fade out proposal page text
+            document.getElementById('body-bg').style.backgroundColor = '#000000';
             proposalPage.style.opacity = '0';
             proposalPage.style.transform = 'scale(0.95)';
 
-            // 4. Swap to prank page
             setTimeout(() => {
                 proposalPage.classList.remove('active');
-
-                // Change floating background emojis
                 romanticIcons = ['🐶', '🤣', '🐕', '😜', '🐕‍🦺', '🐾', '🦴'];
                 buildFloatingIcons();
 
@@ -337,38 +210,18 @@
                     funnyPage.style.transform = 'scale(1)';
                 });
 
-                // Play prank audio
                 prankAudio.volume = 1.0;
-                prankAudio.play().catch((err) => console.log("Prank audio error:", err));
+                prankAudio.currentTime = 0;
+                prankAudio.play().catch(() => {});
 
-                document.getElementById('footer-text').className = "relative z-10 text-center py-4 text-xs font-bold text-yellow-400";
-                window.scrollTo(0, 0);
+                document.getElementById('footer-text').className = "relative z-10 text-center py-2 text-xs font-bold text-yellow-400 shrink-0";
 
-                // Launch confetti
-                const duration = 3 * 1000;
-                const end = Date.now() + duration;
-
+                const end = Date.now() + 3000;
                 (function frame() {
-                    confetti({
-                        particleCount: 3,
-                        angle: 60,
-                        spread: 55,
-                        origin: { x: 0 },
-                        colors: ['#FFD700', '#FFFFFF', '#FF0000']
-                    });
-                    confetti({
-                        particleCount: 3,
-                        angle: 120,
-                        spread: 55,
-                        origin: { x: 1 },
-                        colors: ['#FFD700', '#FFFFFF', '#FF0000']
-                    });
-
-                    if (Date.now() < end) {
-                        requestAnimationFrame(frame);
-                    }
+                    confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FFD700', '#FFFFFF', '#FF0000'] });
+                    confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FFD700', '#FFFFFF', '#FF0000'] });
+                    if (Date.now() < end) requestAnimationFrame(frame);
                 })();
-
             }, 500);
         }
     </script>
