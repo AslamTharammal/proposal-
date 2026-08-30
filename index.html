@@ -128,35 +128,35 @@
 
     <script>
 
-        // 1. AUDIO MANAGEMENT
-        const romanticAudio = document.getElementById('romanticAudio'), prankAudio = document.getElementById('prankAudio');
-        let romanticStarted = false;
+// 1. AUDIO MANAGEMENT
+const romanticAudio = document.getElementById('romanticAudio'), prankAudio = document.getElementById('prankAudio');
+let romanticStarted = false;
 
-        const startRomanticMusic = () => {
-        // Only play if the prank page is NOT active and music hasn't started yet
-        if (!romanticStarted && !document.getElementById('page-funny').classList.contains('active')) {
-            romanticAudio.play().then(() => {
+const startRomanticMusic = () => {
+    // Only play if the prank page is NOT active and music hasn't started yet
+    if (!romanticStarted && !document.getElementById('page-funny').classList.contains('active')) {
+        romanticAudio.play().then(() => {
             romanticStarted = true;
-            }).catch((error) => {
+        }).catch((error) => {
             // Audio was blocked by browser policy; will try again on next interaction
         });
     }
 };
 
-       // Listen for interaction events (including No button hover and touch)
-       ['touchstart', 'touchend', 'click', 'mousemove', 'mouseenter'].forEach(evt => {
-       document.addEventListener(evt, startRomanticMusic);
-       });
+// Listen for interaction events (including No button hover and touch)
+['touchstart', 'touchend', 'click', 'mousemove', 'mouseenter'].forEach(evt => {
+    document.addEventListener(evt, startRomanticMusic);
+});
 
-      document.addEventListener('visibilitychange', () => {
-         if (document.hidden) { 
-            romanticAudio.pause(); 
-            prankAudio.pause(); 
-              } else {
-                    document.getElementById('page-funny').classList.contains('active') 
-                    ? prankAudio.play().catch(() => {}) 
-                    : (romanticStarted && romanticAudio.play().catch(() => {}));
-    } 
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { 
+        romanticAudio.pause(); 
+        prankAudio.pause(); 
+    } else {
+        document.getElementById('page-funny').classList.contains('active') 
+            ? prankAudio.play().catch(() => {}) 
+            : (romanticStarted && romanticAudio.play().catch(() => {}));
+    }
 });
 
         // 2. FLOATING EMOJIS
